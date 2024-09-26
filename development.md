@@ -9,4 +9,4 @@ Development-haarasta luodaan sovelluksen eri toiminnoille (feature) omat haarat.
 |---|---|---|
 dev-app | app.py | AnttiJ
 dev-video | video.py | AnttiJ
-dev-audio | audio.py | AnttiJ
+dev-sound | sound.py | AnttiJ
