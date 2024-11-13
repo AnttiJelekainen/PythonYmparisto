@@ -124,9 +124,7 @@ class NationalSSN:
             isoDate = century[0:2] + parts['years'] + '-' + parts['months'] + '-' + parts['days']
             self.dateOfBirth = isoDate
 
-    # Lasketaan ikä nyt täysinä vuosina
-    def calculateAge(self):
-        pass
+
 
     # Selvitetään varmistussumman avulla onko HeTu syötetty oikein
     def isValidSsn(self) -> bool:
@@ -147,6 +145,10 @@ class NationalSSN:
                 return False
         else:
             return False
+    
+    # Lasketaan ikä nyt täysinä vuosina
+    def calculateAge(self):
+        pass
 
 # MAIN KOKEILUJA VARTEN (POISTA KUN EI ENÄÄ TARVITA)
 #=====================
