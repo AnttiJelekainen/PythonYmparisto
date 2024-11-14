@@ -138,7 +138,7 @@ class NationalSSN:
         else:
             return False
 
-    # Muutetaan synytmäaikaosa ja vuosisata päivämääräksi
+    # Muutetaan syntymäaikaosa ja vuosisata päivämääräksi
     def getDateOfBirth(self) -> None:
         """Sets the value of dateOfBirth property for object
         """
