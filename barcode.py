@@ -29,21 +29,33 @@ def calculateCode128BChecksum(text: str) -> int:
         int: modulo 103 checksum of weighted values
     """
 
-    text = text.strip()
+    text = text.strip() # Poistetaan ylimääräiset tyhjät merkit alusta ja lopusta
     numberOfLetters = len(text)
-    weightedSum = 0
+    weightedSum = 0 # Alustetaan summa tyhjäksi
+
+    # Käydään teksti kirjaimittain läpi
     for number in range(numberOfLetters):
         letter = text[number]
+        
+        # Kutsutaan funktiota, joka palauttaa 128-koodin arvon
         code128BValue = barCodeValue(letter)
+
+        # Lasketaan sijainnilla painotettu arvo
         weightedValue = code128BValue * (number + 1)
+
+        # Lisätään se summaan
         weightedSum = weightedSum + weightedValue
-    weightedSum += 104
+
+    # Lisätään alkumerkin arvo silmukan jälkeen
+    weightedSum += 104 
+    
+    # Lasketaan jakojäännös mod 103
     code128BChecksum = weightedSum % 103
     return code128BChecksum
 
 #TODO: Tee tämä funktio loppuun ja testaa sitä Notepadissa
 def createCode128B(text: str) -> str:
-    """Creates a complete code128B barcode to be printed using Libre Code 128 font
+    """Creates a complete code128B barcode to be printed using Libre Code 128B font
 
     Args:
         text (str): The text for a barcode without checksum
@@ -51,9 +63,15 @@ def createCode128B(text: str) -> str:
     Returns:
         str: String containing start, barcode, checksum and stop symbols
     """
-    code128Barcodestring = ''
+    code128BarcodeString = ''
+    startChar = chr(204)
+    stopChar = chr(206)
+    checkSum = calculateCode128BChecksum(text)
+    checkSumSymbol = chr(checkSum + 32)
+    code128BarcodeString = startChar + text + checkSumSymbol + stopChar
     return code128BarcodeString
 
 if __name__ == "__main__":
     testString = '128B'
     print(f"Painotetut arvot yhteensä: {calculateCode128BChecksum(testString)}")
+    print('Koko viivakoodi on', createCode128B('128B'))

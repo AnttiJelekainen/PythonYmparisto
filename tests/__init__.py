@@ -1,0 +1,1 @@
+# Alustustiedosto testikansiota varten
