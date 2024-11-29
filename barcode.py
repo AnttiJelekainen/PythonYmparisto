@@ -13,7 +13,7 @@ def barCodeValue(character: str) -> int:
         character (_type_): a single character to convert
 
     Returns:
-        int: Code128B value for calculating checksum    
+        int: Code128B value for calculating checksum
     """
     asciiValue = ord(character)
     code128BValue = asciiValue - 32
@@ -69,6 +69,12 @@ def createCode128B(text: str) -> str:
     checkSumSymbol = chr(checkSum + 32)
     code128BarcodeString = startChar + text + checkSumSymbol + stopChar
     return code128BarcodeString
+
+#LUOKKA VIIVAKOODEILLE
+# ====================
+
+class Viivakoodi:
+    pass
 
 if __name__ == "__main__":
     testString = '128B'
