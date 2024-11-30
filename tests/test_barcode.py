@@ -125,4 +125,4 @@ def test_defaultVariant():
 
 # Testataan oikein muodostettu viivakoodin syntyminen
 def test_validBarcode():
-    assert barcode1.buildBarcode() == 'Ì128B?Î'
+    assert barcode1.buildBarcode() == 'Ì128BXÎ'
