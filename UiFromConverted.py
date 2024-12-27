@@ -1,3 +1,6 @@
+# PYSIDE6-MALLINNE SOVELLUKSEN PÄÄIKKUNAN LUOMISEEN
+# KÄÄNNETYSTÄ KÄYTTÖLIITTYMÄTIEDOSTOSTA (mainWindow_ui)
+
 # KIRJASTOJEN JA MODUULIEN LATAUKSET
 # ----------------------------------
 
@@ -5,7 +8,7 @@ import os # Polkumääritykset
 import sys # Käynnistysargumentit
 
 from PySide6 import QtWidgets
-from MainWindow import Ui_MainWindow # Käännetyn käyttöliittymän luokka
+from mainWindow_ui import Ui_MainWindow # Käännetyn käyttöliittymän luokka
 
 # Määritellään luokka, joka perii Qmainwindow- ja Ui_MainWindow-luokan
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -14,9 +17,38 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     # Määritellään olionmuodostin ja kutsutaan yliluokkien muodostimia
     def __init__(self):
         super().__init__()
+        
+        # Luodaan käyttöliittymä konvertoidun tiedoston perusteella MainWindown ui-ominaisuudeksi. Tämä suojaa lopun MainWindow-olion ylikirjoitukselta.
+        self.ui = Ui_MainWindow()
 
         # Kutsutaan käyttöliittymän muodostusmetodia setupUi
-        self.setupUi(self)
+        self.ui.setupUi(self)
+
+        # OHJELMOIDUT SIGNAALIT
+        # ---------------------
+
+        # Kun Tulosta painiketta on klikattu, kutsutaan updatePrintedLabel-metodia
+        self.ui.tulostaPushButton.clicked.connect(self.updatePrintedLabel)
+        self.ui.varoitaPushButton.clicked.connect(self.openWarning)
+    
+
+    # OHJELMOIDUT SLOTIT
+    #-------------------
+
+    # Muutetaan tulostettuLabel:n sisältö: teksti ja väri
+    def updatePrintedLabel(self):
+        self.ui.tulostettuLabel.setText("Tulostettu")
+        self.ui.tulostettuLabel.setStyleSheet(u"color: rgb(0, 255, 0);")
+
+    
+    # Avataan MessageBox
+    def openWarning(self):
+        msgBox = QtWidgets.QMessageBox()
+        msgBox.setIcon(QtWidgets.QMessageBox.Critical)
+        msgBox.setWindowTitle('Hirveetä!')
+        msgBox.setText('Jotain kamalaa tapahtui')
+        msgBox.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msgBox.exec()
 
 
 # Luodaan sovellus

@@ -1,27 +1,32 @@
 # -*- coding: utf-8 -*-
 
+# TÄMÄ ON ESIMERKKITIEDOSTO MainWindow.py:stä, JONKA TARKOITUS ON HAHMOTTAA KOODIA KOMMENTTIEN AVULLA.
+# =====================================================================================================
+
+
 ################################################################################
-## Form generated from reading UI file 'mainWindow.ui'
+# Form generated from reading UI file 'mainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.1
+# Created by: Qt User Interface Compiler version 6.8.1
 ##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
+# WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
-    QMenuBar, QPushButton, QSizePolicy, QStatusBar,
-    QWidget)
+                               QMenuBar, QPushButton, QSizePolicy, QStatusBar,
+                               QWidget)
+
 
 class Ui_MainWindow(object):
 
-    # Luodaan pääikkuna 
+    # Luodaan pääikkuna
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
@@ -55,7 +60,8 @@ class Ui_MainWindow(object):
         self.tulostaPushButton.setFont(font)
 
         # Määritellään painikkeen tyyliasetukset
-        self.tulostaPushButton.setStyleSheet(u"background-color: rgb(217, 117, 66);")
+        self.tulostaPushButton.setStyleSheet(
+            u"background-color: rgb(217, 117, 66);")
 
         # Asetetaan pääikkunan vimpain
         MainWindow.setCentralWidget(self.centralwidget)
@@ -81,10 +87,13 @@ class Ui_MainWindow(object):
 
         QMetaObject.connectSlotsByName(MainWindow)
 
-    # Metodi elementtien nimien muuttamiseksi Unicode -> UTF-8
+    # Metodi elementtien nimien muuttamiseksi Unicode -> 8bit
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.tulostaPushButton.setText(QCoreApplication.translate("MainWindow", u"Tulosta", None))
-
+        MainWindow.setWindowTitle(QCoreApplication.translate(
+            "MainWindow", u"MainWindow", None))
+        self.label.setText(QCoreApplication.translate(
+            "MainWindow", u"TextLabel", None))
+        self.pushButton.setText(QCoreApplication.translate(
+            "MainWindow", u"PushButton", None))
+        self.tulostaPushButton.setText(
+            QCoreApplication.translate("MainWindow", u"Tulosta", None))
