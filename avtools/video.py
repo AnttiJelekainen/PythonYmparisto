@@ -40,7 +40,6 @@ def webstream(camIx):
             print("Can't receive frames. Exiting ...")
             break
             
-        # TODO: Selvitä voiko käyttää funktionäppäimiä
         # Määritellään poistumisnäppäin q
         cv2.imshow(windowName, frame)
         if cv2.waitKey(1) == ord('q'):
