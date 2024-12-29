@@ -36,8 +36,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.ui.ssnLineEdit.editingFinished.connect(self.updateBarcodeLabel)
 
         # Siistitään etunimi- ja sukunimielementit poistuttaessa
-        self.ui.firstNameLineEdit.editingFinished.connect(self.beautifyFirstName)
-        self.ui.lastNameLineEdit.editingFinished.connect(self.beautifyLastName)
+        self.ui.firstNameLineEdit.editingFinished.connect(lambda: self.beautifyElement(self.ui.firstNameLineEdit))
+        self.ui.lastNameLineEdit.editingFinished.connect(lambda: self.beautifyElement(self.ui.lastNameLineEdit))
 
         # Aktivoidaan tulostuspainiken sen jälkeen kun etikettin määrä on säädetty
         self.ui.amountSpinBox.valueChanged.connect(self.enablePrintButton)
@@ -47,6 +47,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     # OHJELMOIDUT SLOTIT
     #-------------------
 
+    #TODO: Tee DocStringit metodeille
+
     # Viivakoodin muodostus ja barcodeLabel:n päivitys
     def updateBarcodeLabel(self):
         # Tarkistetaan, että henkilötunnus on oikein muodostettu
@@ -54,30 +56,31 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         ssnToCheck = identityCheck2.NationalSSN(uiSsn) # Luodaan henkilötunnusobjekti
         self.ui.ssnLineEdit.setText(uiSsn) # Päivitetään myös syöyttökenttä isoihin kirjaimiin
 
-        # Jos se on oikein, luodaan viivakoodi
+        # Jos se on oikein, luodaan viivakoodi ja päivitetään tilarivi
         if ssnToCheck.isValidSsn():
             barcode128 = barcode.Code128B(uiSsn) # Luodaan viivakoodi-olio
             barCodeToPrint = barcode128.buildBarcode() # Lisätään alku- ja loppumerkki sekä varmistusssumma
             self.ui.barcodeLabel.setText(barCodeToPrint) # Päivitetään käyttöliittymän barcodeLabel
+            age = ssnToCheck.calculateAge() # Lasketaan ikä
+            ssnToCheck.getGender() # Kutsutaan sukupuolen selvitys metodia
+            gender = ssnToCheck.gender.lower()
+            textToShow = f'Asiakas on {age}-vuotias {gender}'
+            self.updateStatusbar(textToShow)
+
 
         # Jos se on muodostettu väärin näytetään virheilmoitus MessageBox-ikkunassa
         else:
             self.errorTitle = 'Henkilötunnus virheellinen'
             self.errorText = ssnToCheck.errorMessage
             self.openErrorMsgBox(self.errorTitle, self.errorText)
+            self.ui.ssnLineEdit.setFocus() # Palautetaan kursori takaisin elementtiin
 
-    def beautifyFirstName(self):
-        firstName = self.ui.firstNameLineEdit.text()
-        firstName = firstName.strip() # Poistetaan ylimääräiset tyhjät välit tms
-        firstName = firstName.title() # Muutetaan isot alkukirjaimet
-        self.ui.firstNameLineEdit.setText(firstName) # Päivitetään elementti
-
-    def beautifyLastName(self):
-        lastName = self.ui.lastNameLineEdit.text()
-        lastName = lastName.strip()  # Poistetaan ylimääräiset tyhjät välit tms
-        lastName = lastName.title()  # Muutetaan isot alkukirjaimet
-        self.ui.lastNameLineEdit.setText(lastName)  # Päivitetään elementti
-
+    def beautifyElement(self, element):
+        elementText = element.text() # Luettaan elementin teksti
+        elementText = elementText.strip() # Poistetaan välit alusta ja lopusta
+        elementText = elementText.title() # Muutetaan isot alkukirjaimet
+        element.setText(elementText) # Päivitetään elementin teksti
+        
     # Aktivoidaan tulostuspainike
     def enablePrintButton(self):
         self.ui.printPushButton.setEnabled(True)
@@ -91,10 +94,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         msgBox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         msgBox.exec()
 
-    # TODO: Tulostuspainike aktiiviseksi vain, kun kaikki tiedot on täytetty ja OK -> disabled oletus, kun kaikki tiedot -> enabled
-
-    # TODO: Lisää tilariville tiedot asiakkaasta tyyliin:
-    # Asiakas on 96-vuotias nainen
+    def updateStatusbar(self, textToShow, timeToShow=-1):
+        self.ui.statusbar.showMessage(textToShow, timeToShow)
 
 if __name__ == "__main__":
 
