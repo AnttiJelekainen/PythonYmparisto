@@ -51,6 +51,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # Viivakoodin muodostus ja barcodeLabel:n päivitys
     def updateBarcodeLabel(self):
+        """Updates the barcode label and sets ssnLineEdit to uppercase
+        """
         # Tarkistetaan, että henkilötunnus on oikein muodostettu
         uiSsn = self.ui.ssnLineEdit.text().upper() # Luetaan käyttöliittymästä henkilötunnus
         ssnToCheck = identityCheck2.NationalSSN(uiSsn) # Luodaan henkilötunnusobjekti
@@ -76,6 +78,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.ui.ssnLineEdit.setFocus() # Palautetaan kursori takaisin elementtiin
 
     def beautifyElement(self, element):
+        """Beautifies contents of an element
+
+        Args:
+            element (QtWidged): The element to be beautified
+        """
         elementText = element.text() # Luettaan elementin teksti
         elementText = elementText.strip() # Poistetaan välit alusta ja lopusta
         elementText = elementText.title() # Muutetaan isot alkukirjaimet
@@ -83,18 +90,35 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
     # Aktivoidaan tulostuspainike
     def enablePrintButton(self):
-        self.ui.printPushButton.setEnabled(True)
+        """Enables the print button if all inputs are occupied with values
+        """
+        if self.ui.ssnLineEdit.text != '' or self.ui.firstNameLineEdit.text != '' or self.ui.lastNameLineEdit != '':
+            self.ui.printPushButton.setEnabled(True)
 
     # Virheilmoitusikkuna
     def openErrorMsgBox(self, errorTitle, errorText):
+        """Opens a message box alertig about an error
+
+        Args:
+            errorTitle (_type_): Title of the message box
+            errorText (_type_): What kind of error occurs
+        """
         msgBox = QtWidgets.QMessageBox()
         msgBox.setIcon(QtWidgets.QMessageBox.Critical)
         msgBox.setWindowTitle(errorTitle)
         msgBox.setText(errorText)
         msgBox.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        sound.shortBeep()
         msgBox.exec()
 
+    # Tilarivinpäivitysrutiini
     def updateStatusbar(self, textToShow, timeToShow=-1):
+        """Updates the statusbar
+
+        Args:
+            textToShow (str): A text to show on status bar
+            timeToShow (int, optional): Duration in ms. -1 is infinite and its default
+        """
         self.ui.statusbar.showMessage(textToShow, timeToShow)
 
 if __name__ == "__main__":
